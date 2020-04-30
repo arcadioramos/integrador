@@ -1,2 +1,2 @@
 # integrador
-Desarrollo de aplicación web y aplicación de escritorio
+Desarrollo de aplicación móvil y aplicación de escritorio
