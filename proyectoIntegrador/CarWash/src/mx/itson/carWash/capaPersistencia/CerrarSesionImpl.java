@@ -7,6 +7,8 @@ package mx.itson.carWash.capaPersistencia;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -14,19 +16,26 @@ import javax.swing.JOptionPane;
  * @author HP Pavilion
  */
 public class CerrarSesionImpl {
-    public boolean cerrarSesion(){
-        boolean exito = false;
-        try {
-            Connection conx = Conexion.getConnection();
-            String query = "DELETE FROM session WHERE id > 0";
-            PreparedStatement st = conx.prepareStatement(query);
-            st.execute();
-            conx.close();
-            exito = true;
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al cerrar sesiÃ³n");
-            exito = false;
-        }
-        return exito;
-    }
+	public boolean cerrarSesion() {
+		boolean exito = false;
+		PreparedStatement st = null;
+		try {
+			Connection conx = Conexion.getConnection();
+			String query = "DELETE FROM session WHERE id > 0";
+			st = conx.prepareStatement(query);
+			st.execute();
+			conx.close();
+			exito = true;
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "Error al cerrar sesión");
+			exito = false;
+		} finally {
+			try {
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return exito;
+	}
 }
